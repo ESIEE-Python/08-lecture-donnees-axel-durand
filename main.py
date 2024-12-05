@@ -1,53 +1,81 @@
 #### Imports et définition des variables globales
-import random
-
+'''
+Lis le données d'un fichier
+'''
 FILENAME = "listes.csv"
-
 #### Fonctions secondaires
-
 def read_data(filename):
     """retourne le contenu du fichier <filename>
 
     Args:
         filename (str): nom du fichier à lire
-
     Returns:
         list: le contenu du fichier (1 list par ligne)
     """
-    l = []
-    return l
+    with open(filename, mode='r', encoding='utf-8') as file:
+        return [list(map(int, line.strip().split(';'))) for line in file.readlines()]
 
 def get_list_k(data, k):
-    l = []
-    return l
+    '''
+    retourne la liste
+    '''
+    return data[k] if 0 <= k < len(data) else None
 
 def get_first(l):
-    return None
+    '''
+    retourne le premier élément
+    '''
+    return l[0] if l else None
 
 def get_last(l):
-    return None
+    '''
+    retourne le dernier élément
+    '''
+    return l[-1] if l else None
 
 def get_max(l):
-    return None
+    '''
+    retourne l'élément le plus grand
+    '''
+    return max(l) if l else None
 
 def get_min(l):
-    return None
+    '''
+    retourne le plus petit élément
+    '''
+    return min(l) if l else None
 
 def get_sum(l):
-    return None
-
+    '''
+    retourne la somme des éléments
+    '''
+    return sum(l) if l else None
 
 #### Fonction principale
-
-
 def main():
-    pass
-    # data = read_data(FILENAME)
-    # for i, l in enumerate(data):
-    #     print(i, l)
-    # k = 37
-    # print(k, get_list_k(data, 37))
-
+    '''
+    appelle les fonctions
+    '''
+    try:
+        data = read_data(FILENAME)
+        print("Données lues :")
+        for i, l in enumerate(data):
+            print(f"Ligne {i} : {l}")
+        k = 37
+        liste_k = get_list_k(data, k)
+        if liste_k is not None:
+            print(f"\nListe {k} : {liste_k}")
+            print(f"Premier élément : {get_first(liste_k)}")
+            print(f"Dernier élément : {get_last(liste_k)}")
+            print(f"Maximum : {get_max(liste_k)}")
+            print(f"Minimum : {get_min(liste_k)}")
+            print(f"Somme : {get_sum(liste_k)}")
+        else:
+            print(f"\nL'indice {k} est hors limites (données disponibles : {len(data)} lignes).")
+    except FileNotFoundError:
+        print(f"Erreur : le fichier '{FILENAME}' est introuvable.")
+    except ValueError as e:
+        print(f"Erreur dans le fichier '{FILENAME}' : {e}")
 
 if __name__ == "__main__":
     main()
